@@ -1,0 +1,357 @@
+ishabh@Amazon:~$ docker
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/rishabh/.docker")
+  -c, --context string     Name of the context to use to connect to the
+                           daemon (overrides DOCKER_HOST env var and
+                           default context set with "docker context use")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/rishabh/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/rishabh/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/rishabh/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  builder     Manage builds
+  config      Manage Docker configs
+  container   Manage containers
+  context     Manage contexts
+  image       Manage images
+  manifest    Manage Docker image manifests and manifest lists
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  stack       Manage Docker stacks
+  swarm       Manage Swarm
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+
+To get more help with docker, check out our guides at https://docs.docker.com/go/guides/
+rishabh@Amazon:~$ docker network ls
+NETWORK ID     NAME       DRIVER    SCOPE
+f149a49e8b53   bridge     bridge    local
+5bf94646bcad   host       host      local
+031dbe63fa90   minikube   bridge    local
+e7ba9fd211e3   none       null      local
+rishabh@Amazon:~$ docker network create mongo-network
+4abc6fe96c711febb9256440216ad3b4318532fa1329e064ee20602a4bda4887
+rishabh@Amazon:~$ docker pull mongo
+Using default tag: latest
+latest: Pulling from library/mongo
+d7bfe07ed847: Pull complete 
+97ef66a8492a: Pull complete 
+20cec14c8f9e: Pull complete 
+38c3018eb09a: Pull complete 
+ccc9e1c2556b: Pull complete 
+593c62d03532: Pull complete 
+1a103a446c3f: Pull complete 
+be887b845d3f: Pull complete 
+e5543880b183: Pull complete 
+Digest: sha256:37e84d3dd30cdfb5472ec42b8a6b4dc6ca7cacd91ebcfa0410a54528bbc5fa6d
+Status: Downloaded newer image for mongo:latest
+docker.io/library/mongo:latest
+rishabh@Amazon:~$ docker pull mongo-expredss
+Using default tag: latest
+^Z
+[1]+  Stopped                 docker pull mongo-expredss
+rishabh@Amazon:~$ docker pull mongo-express
+Using default tag: latest
+latest: Pulling from library/mongo-express
+6a428f9f83b0: Pull complete 
+f2b1fb32259e: Pull complete 
+40888f2a0a1f: Pull complete 
+4e3cc9ce09be: Pull complete 
+eaa1898f3899: Pull complete 
+ab4078090382: Pull complete 
+ae780a42c79e: Pull complete 
+e60224d64a04: Pull complete 
+Digest: sha256:2a25aafdf23296823b06bc9a0a2af2656971262041b8dbf11b40444804fdc104
+Status: Downloaded newer image for mongo-express:latest
+docker.io/library/mongo-express:latest
+	
+rishabh@Amazon:~$ docker run -d -p 27017:27017 --name mongodb -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=password --net mongo-network mongo
+d644d3513166130b0cb56de096b9f26f1ef984b7184963a8d748df3209ce8305
+
+docker run -d -p 8081:8081 -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=password -e ME_CONFIG_MONGODB_SERVER=mongodb --name mongo-express --net mongo-network  mongo-express
+e4627f2700a751e0e5c64866ecba5f62368f5f3daeb31f7328fba2d9d8e99bc6
+
+
+rishabh@Amazon:~$ docker ps -a
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                      PORTS     NAMES
+e4627f2700a7   mongo-express                         "tini -- /docker-ent…"   9 hours ago    Exited (143) 8 hours ago              mongo-express
+d644d3513166   mongo                                 "docker-entrypoint.s…"   9 hours ago    Exited (0) 8 hours ago                mongodb
+15ab92a62e89   gcr.io/k8s-minikube/kicbase:v0.0.30   "/usr/local/bin/entr…"   2 months ago   Exited (137) 2 months ago             minikube
+rishabh@Amazon:~$ docker rm mongo-express
+mongo-express
+rishabh@Amazon:~$ docker ps -a
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                      PORTS     NAMES
+d644d3513166   mongo                                 "docker-entrypoint.s…"   9 hours ago    Exited (0) 8 hours ago                mongodb
+15ab92a62e89   gcr.io/k8s-minikube/kicbase:v0.0.30   "/usr/local/bin/entr…"   2 months ago   Exited (137) 2 months ago             minikube
+rishabh@Amazon:~$ docker rm mongodb
+mongodb
+rishabh@Amazon:~$ docker run -d -p 27017:27017 --name mongodb -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=password --net mongo-network mongo
+33af5ab028bccf774d66b9531be9a0c98f961bc105f65d3c860bf08a2eeeea2b
+rishabh@Amazon:~$ docker run -d -p 8081:8081 -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=password -e ME_CONFIG_MONGODB_SERVER=mongodb --name mongo-express --net mongo-network  mongo-express
+03aa4d56700d8f60e669b4ffbf08370d16c00fb7161915820f7040bdadd4b286
+
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ docker-compose -f docker-compose.yaml up
+Starting techworld-js-docker-demo-app-master_mongodb_1       ... done
+Starting techworld-js-docker-demo-app-master_mongo-express_1 ... done
+Attaching to techworld-js-docker-demo-app-master_mongodb_1, techworld-js-docker-demo-app-master_mongo-express_1
+mongo-express_1  | Welcome to mongo-express
+
+
+rishabh@Amazon:~$ docker ps 
+CONTAINER ID   IMAGE           COMMAND                  CREATED          STATUS         PORTS                                           NAMES
+1c96530a3009   mongo-express   "tini -- /docker-ent…"   10 minutes ago   Up 4 minutes   0.0.0.0:8080->8081/tcp, :::8080->8081/tcp       techworld-js-docker-demo-app-master_mongo-express_1
+59af698a6bb5   mongo           "docker-entrypoint.s…"   10 minutes ago   Up 4 minutes   0.0.0.0:27017->27017/tcp, :::27017->27017/tcp   techworld-js-docker-demo-app-master_mongodb_1
+
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ docker-compose -f docker-compose.yaml down 
+Stopping techworld-js-docker-demo-app-master_mongo-express_1 ... done
+Stopping techworld-js-docker-demo-app-master_mongodb_1       ... done
+Removing techworld-js-docker-demo-app-master_mongo-express_1 ... done
+Removing techworld-js-docker-demo-app-master_mongodb_1       ... done
+Removing network techworld-js-docker-demo-app-master_default
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ 
+
+
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ docker build -t my-app:1.0 .
+Sending build context to Docker daemon  12.27MB
+Step 1/7 : FROM node:13-alpine
+13-alpine: Pulling from library/node
+cbdbe7a5bc2a: Pull complete 
+780514bed1ad: Pull complete 
+5d74fb112a7d: Pull complete 
+4b9536424fa1: Pull complete 
+Digest: sha256:527c70f74817f6f6b5853588c28de33459178ab72421f1fb7b63a281ab670258
+Status: Downloaded newer image for node:13-alpine
+ ---> 8216bf4583a5
+Step 2/7 : ENV MONGO_DB_USERNAME=admin     MONGO_DB_PWD=password
+ ---> Running in af492016bf71
+Removing intermediate container af492016bf71
+ ---> 7ddb19ce8d53
+Step 3/7 : RUN mkdir -p /home/app
+ ---> Running in 9a5eb4862863
+Removing intermediate container 9a5eb4862863
+ ---> 1de843a90037
+Step 4/7 : COPY ./app /home/app
+ ---> f011748a0a68
+Step 5/7 : WORKDIR /home/app
+ ---> Running in 801296aa7339
+Removing intermediate container 801296aa7339
+ ---> adde4dbde9e3
+Step 6/7 : RUN npm install
+ ---> Running in c4ae9b1d8c36
+npm WARN developing-with-docker@1.0.0 No description
+npm WARN developing-with-docker@1.0.0 No repository field.
+
+audited 89 packages in 0.905s
+
+7 packages are looking for funding
+  run `npm fund` for details
+
+found 2 vulnerabilities (1 moderate, 1 high)
+  run `npm audit fix` to fix them, or `npm audit` for details
+Removing intermediate container c4ae9b1d8c36
+ ---> 5242323f4782
+Step 7/7 : CMD ["node", "server.js"]
+ ---> Running in 7f8fd5503c8b
+Removing intermediate container 7f8fd5503c8b
+ ---> d9157fe39e79
+Successfully built d9157fe39e79
+Successfully tagged my-app:1.0
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ docker images
+REPOSITORY                                          TAG         IMAGE ID       CREATED          SIZE
+my-app                                              1.0         d9157fe39e79   18 seconds ago   126MB
+mongo                                               latest      c8b57c4bf7e3   5 days ago       701MB
+096248727743.dkr.ecr.us-west-2.amazonaws.com/test   latest      12766a6745ee   2 months ago     142MB
+nginx                                               latest      12766a6745ee   2 months ago     142MB
+gcr.io/k8s-minikube/kicbase                         v0.0.30     1312ccd2422d   4 months ago     1.14GB
+mongo-express                                       latest      2d2fb2cabc8f   7 months ago     136MB
+node                                                13-alpine   8216bf4583a5   2 years ago      114MB
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ docker rmi d9157fe39e79
+Untagged: my-app:1.0
+Deleted: sha256:d9157fe39e79df4af2f1a209a968252b8e4249fb702258d2946e58f38b7df731
+Deleted: sha256:5242323f478253e9b8b681723012e19a3db7f6c61668c6c64598bd1e19f6257d
+Deleted: sha256:43b535e1f35efb252b3bb30b01918a5d090453671eb1ada466e3285eed901a3f
+Deleted: sha256:adde4dbde9e3004e7cfa5e604d48314dd5367529410c7b87785e5fd2fbe44b7d
+Deleted: sha256:f011748a0a681b39aa156d1fd134865177aa65d6e4b45b1a13e86064bc29a27a
+Deleted: sha256:799532cf9ccc391ae610609ad454da7a4fe5e218dc179370ce22e382b6bc708e
+Deleted: sha256:1de843a90037fb5492e1f48a40aa5dd2ae205391b1a05d24ccd0bf714a2f4f76
+Deleted: sha256:108e52a41ee04e0306c209c3aee904120862de1f69337533cd9d2497990a8742
+Deleted: sha256:7ddb19ce8d53419c85d6b9a7fce0d8a131b72c00f04a5576a25c132ef20f2e46
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ docker build -t my-app:1.0 .
+Sending build context to Docker daemon  12.27MB
+Step 1/7 : FROM node:13-alpine
+ ---> 8216bf4583a5
+Step 2/7 : ENV MONGO_DB_USERNAME=admin     MONGO_DB_PWD=password
+ ---> Running in 994682fd7a18
+Removing intermediate container 994682fd7a18
+ ---> ea800bf052b3
+Step 3/7 : RUN mkdir -p /home/app
+ ---> Running in 0d3f82844085
+Removing intermediate container 0d3f82844085
+ ---> 5c930e48461e
+Step 4/7 : COPY ./app /home/app
+ ---> 30bb1273e7d2
+Step 5/7 : WORKDIR /home/app
+ ---> Running in 0da2b32d4f46
+Removing intermediate container 0da2b32d4f46
+ ---> 9a5948290ba7
+Step 6/7 : RUN npm install
+ ---> Running in e15f2fb71461
+npm WARN developing-with-docker@1.0.0 No description
+npm WARN developing-with-docker@1.0.0 No repository field.
+
+audited 89 packages in 0.904s
+
+7 packages are looking for funding
+  run `npm fund` for details
+
+found 2 vulnerabilities (1 moderate, 1 high)
+  run `npm audit fix` to fix them, or `npm audit` for details
+Removing intermediate container e15f2fb71461
+ ---> 164c7721a4c2
+Step 7/7 : CMD ["node", "/home/app/server.js"]
+ ---> Running in a9f7b4a14687
+Removing intermediate container a9f7b4a14687
+ ---> caefa68766a0
+Successfully built caefa68766a0
+Successfully tagged my-app:1.0
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ docker run my-app:1.0 .
+/usr/local/bin/docker-entrypoint.sh: exec: line 8: .: Permission denied
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ sudo docker run my-app:1.0 .
+[sudo] password for rishabh: 
+/usr/local/bin/docker-entrypoint.sh: exec: line 8: .: Permission denied
+
+sudo -i, changed permission for path /usr/local/bin to +777
+created docker-entrypoint.sh file with one line of shebang
+and then built image
+
+changed policies on aws repo, ss there, and then was able to push to ECR
+rishabh@Amazon:~$ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 702227755726.dkr.ecr.ap-south-1.amazonaws.com
+WARNING! Your password will be stored unencrypted in /home/rishabh/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+rishabh@Amazon:~$ docker tag my-app:1.0 702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app:1.0
+rishabh@Amazon:~$ docker images
+REPOSITORY                                             TAG         IMAGE ID       CREATED       SIZE
+my-app                                                 1.2         8d38942bcfd2   3 hours ago   126MB
+702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app   1.0         bba25ba4cfcd   4 hours ago   126MB
+my-app                                                 1.0         bba25ba4cfcd   4 hours ago   126MB
+my-app                                                 1.3         bba25ba4cfcd   4 hours ago   126MB
+my-app                                                 1.1         718f3188ff9b   4 hours ago   114MB
+node                                                   13-alpine   8216bf4583a5   2 years ago   114MB
+rishabh@Amazon:~$ docker push 702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app
+Using default tag: latest
+The push refers to repository [702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app]
+tag does not exist: 702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app:latest
+rishabh@Amazon:~$ docker push 702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app:1.0
+The push refers to repository [702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app]
+1e0b3e0950b3: Retrying in 20 seconds 
+83a0c4c39f61: Retrying in 18 seconds 
+f85b4076ca96: Retrying in 19 seconds 
+629960860aca: Retrying in 19 seconds 
+f019278bad8b: Retrying in 18 seconds 
+8ca4f4055a70: Waiting 
+3e207b409db3: Preparing 
+^Z
+[1]+  Stopped                 docker push 702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app:1.0
+rishabh@Amazon:~$ docker push 702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app:1.0
+The push refers to repository [702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app]
+1e0b3e0950b3: Retrying in 1 second 
+83a0c4c39f61: Retrying in 1 second 
+f85b4076ca96: Retrying in 1 second 
+629960860aca: Retrying in 1 second 
+f019278bad8b: Retrying in 1 second 
+8ca4f4055a70: Retrying in 4 seconds 
+3e207b409db3: Retrying in 4 seconds 
+EOF
+rishabh@Amazon:~$ docker push 702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app:1.0
+The push refers to repository [702227755726.dkr.ecr.ap-south-1.amazonaws.com/my-app]
+1e0b3e0950b3: Pushed 
+83a0c4c39f61: Pushed 
+f85b4076ca96: Pushed 
+629960860aca: Pushed 
+f019278bad8b: Pushed 
+8ca4f4055a70: Pushed 
+3e207b409db3: Pushed 
+1.0: digest: sha256:ea6317026451accc83d202d91bc4db2a045f5b97bc8718993864598ca7e7f8ae size: 1783
+
+
+Using image from private repo
+rishabh@Amazon:~/Desktop/techworld-js-docker-demo-app-master$ docker-compose -f docker-compose.yaml up
+Creating network "techworld-js-docker-demo-app-master_default" with the default driver
+Creating volume "techworld-js-docker-demo-app-master_mongo-data" with local driver
+Pulling mongodb (mongo:)...
+
+
+
+
+
+
